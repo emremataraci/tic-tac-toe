@@ -3,8 +3,8 @@ import React, { useState } from 'react';
 const TicTacToe = () => {
     const[turn, setTurn] = useState('x');
     const[cells, setCells] = useState(Array(9).fill(''));
-    const[winner, setWinner] = useState();
-    
+    const[winner, setWinner] = useState(false);
+    var is_winner_exist =false
     const checkForWinner = (squares) => {
         let combos = {
 			across: [
@@ -37,11 +37,18 @@ const TicTacToe = () => {
 					squares[pattern[1]] === squares[pattern[2]]
 				) {
 					setWinner(squares[pattern[0]]);
+                    is_winner_exist=true
 				}
-                
 			});
 		}
-	};
+        
+        
+        const result = squares.includes('');
+        if(result === false && is_winner_exist===false ) {
+            setWinner("NO ONE")
+        }
+    
+    };
 
     const leftClick = (num) => {   
         if (cells[num] !== ''){
@@ -64,7 +71,8 @@ const TicTacToe = () => {
     }
 
     const handleRestart = () => {
-        setWinner(null);
+        setWinner(false);
+        is_winner_exist=false
         setCells(Array(9).fill(''));
 
     }
@@ -74,7 +82,7 @@ const TicTacToe = () => {
     }
 
     return (
-        <div className='container'>
+        <div className='gameContainer'>
             Turn: {turn}
             <table>
                 <tbody>
